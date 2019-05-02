@@ -22,10 +22,13 @@ def variables():
 	global tile_3
 	global tile_4
 	global background
+	global steel
+	global logo
+	global arrow
 	box = pygame.image.load('resources/box.png')
 	cone = pygame.image.load('resources/cone.png')
 	fan = pygame.image.load('resources/fan.png')
-	flower = pygame.image.load('resources/flower.jpg')
+	flower = pygame.image.load('resources/flower.png')
 	tree = pygame.image.load('resources/tree.png')
 	water = pygame.image.load('resources/water.png')
 	road = pygame.image.load('resources/road.jpg')
@@ -37,6 +40,9 @@ def variables():
 	tile_3 = pygame.image.load('resources/tile(3).jpg')
 	tile_4 = pygame.image.load('resources/tile(4).jpg')
 	background = pygame.image.load('resources/background.jpg')
+	logo = pygame.image.load('resources/logo.png')
+	steel = pygame.image.load('resources/steel.jpg')
+	arrow = pygame.image.load('resources/arrow.png')
 
 def draw_map():
 
@@ -44,7 +50,7 @@ def draw_map():
 	DISPLAYSURF.blit(tile, (200, 0))
 	DISPLAYSURF.blit(tile, (400, 0))
 	DISPLAYSURF.blit(tile, (600, 0))
-	DISPLAYSURF.blit(tile, (0, 725))
+	DISPLAYSURF.blit(steel, (0, 725))
 	DISPLAYSURF.blit(tile, (200, 725))
 	DISPLAYSURF.blit(tile, (400, 725))
 	DISPLAYSURF.blit(tile, (600, 725))
@@ -70,14 +76,14 @@ def draw_map():
 	DISPLAYSURF.blit(road, (0, 675))
 	DISPLAYSURF.blit(box, (5, 5))
 	DISPLAYSURF.blit(box, (495, 20))
-	DISPLAYSURF.blit(box, (805, 20))
+	DISPLAYSURF.blit(arrow, (875, 25))
 	DISPLAYSURF.blit(box, (95, 130))
 	DISPLAYSURF.blit(box, (295, 320))
 	DISPLAYSURF.blit(box, (605, 320))
 	DISPLAYSURF.blit(box, (205, 620))
 	DISPLAYSURF.blit(box, (695, 430))
 	DISPLAYSURF.blit(box, (945, 620))
-	DISPLAYSURF.blit(box, (5, 730))
+	DISPLAYSURF.blit(logo, (5, 730))
 	DISPLAYSURF.blit(box, (405, 730))
 	DISPLAYSURF.blit(box, (805, 745))
 	DISPLAYSURF.blit(cone, (150, 25))
@@ -89,6 +95,16 @@ def draw_map():
 	DISPLAYSURF.blit(cone, (750, 725))
 	DISPLAYSURF.blit(cone, (800, 675))
 	DISPLAYSURF.blit(background, (1000, 0))
+	DISPLAYSURF.blit(water, (0, 275))
+	DISPLAYSURF.blit(water, (200, 125))
+	DISPLAYSURF.blit(water, (950, 275))
+	DISPLAYSURF.blit(water, (300, 575))
+	DISPLAYSURF.blit(fan, (700, 125))
+	DISPLAYSURF.blit(fan, (950, 125))
+	DISPLAYSURF.blit(fan, (0, 625))
+	DISPLAYSURF.blit(fan, (600, 625))
+	DISPLAYSURF.blit(fan, (300, 0))
+	DISPLAYSURF.blit(fan, (200, 750))
 
 variables()
 
