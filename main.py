@@ -9,9 +9,15 @@ from tower import Tower
 from fan import Fan
 from tree import Tree
 from flower import Flower
+from weak_bot import Weak_Bot
+from blue_bot import Blue_Bot
+from red_bot import Red_Bot
+from ultron import Ultron
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Avengers Tower Defense")
+FPS = 60
+fpsClock = pygame.time.Clock()
 
 def images():
 
@@ -148,6 +154,7 @@ def draw_map():
 images()
 map_sprites()
 
+counter = 0
 while True:
 
 	for event in pygame.event.get():
@@ -158,3 +165,5 @@ while True:
 
 	draw_map()
 	pygame.display.update()
+	fpsClock.tick(FPS)
+	counter += 1
