@@ -13,6 +13,12 @@ from weak_bot import Weak_Bot
 from blue_bot import Blue_Bot
 from red_bot import Red_Bot
 from ultron import Ultron
+from widow import Widow
+from cap import Cap
+from thor import Thor
+from tony import Tony
+from hawkeye import Hawkeye
+from hulk import Hulk
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Avengers Tower Defense")
@@ -151,19 +157,53 @@ def draw_map():
 	DISPLAYSURF.blit(cone, (800, 675))
 	pygame.draw.line(DISPLAYSURF, (255, 255, 255), (1000, 0), (1000, 800), 10)
 
+def hero_sprites():
+
+	global heroes
+	widow = Widow()
+	cap = Cap()
+	tony = Tony()
+	thor = Thor()
+	hawkeye = Hawkeye()
+	hulk = Hulk()
+	heroes = pygame.sprite.Group()
+	heroes.add(cap)
+	heroes.add(widow)
+	heroes.add(tony)
+	heroes.add(thor)
+	heroes.add(hawkeye)
+	heroes.add(hulk)
+
+def drag_and_drop():
+
+	#work drag and drop
+
+def draw_heroes():
+
+	for h in heroes:
+		DISPLAYSURF.blit(h.image, h.rect)
+
 images()
 map_sprites()
+hero_sprites()
 
 counter = 0
+holding = False
+pick = (0, False)
 while True:
 
+	click = pygame.mouse.get_pos()
 	for event in pygame.event.get():
 
 		if event.type == pygame.QUIT:
 			pygame.quit()
 			sys.exit()
 
+		if event.type == pygame.MOUSEBUTTONDOWN:
+			#work drag and drop
+
 	draw_map()
+	draw_heroes()
 	pygame.display.update()
 	fpsClock.tick(FPS)
 	counter += 1

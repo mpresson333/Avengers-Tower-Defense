@@ -7,10 +7,8 @@ class Blue_Bot(pygame.sprite.Sprite):
     def __init__(self):
 
         super().__init__()
-        self.x = 1000
-        self.y = 80
         self.image = pygame.image.load('resources/ultron(2.2.1).png')
-        self.rect = pygame.Rect(self.x, self.y, 30, 40)
+        self.rect = pygame.Rect(1000, 80, 30, 40)
         self.health = 2
 
     def move(self, counter):
