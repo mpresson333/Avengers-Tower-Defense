@@ -24,6 +24,7 @@ DISPLAYSURF = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Avengers Tower Defense")
 FPS = 60
 fpsClock = pygame.time.Clock()
+bots = []
 
 def images():
 
@@ -38,6 +39,7 @@ def images():
 	global background
 	global steel
 	global logo
+	global heart
 	box = pygame.image.load('resources/box.png')
 	cone = pygame.image.load('resources/cone.png')
 	flower = pygame.image.load('resources/flower.png')
@@ -50,62 +52,49 @@ def images():
 	background = pygame.image.load('resources/background.jpg')
 	logo = pygame.image.load('resources/logo.png')
 	steel = pygame.image.load('resources/steel.jpg')
+	heart = pygame.image.load('resources/heart.png')
 
 def map_sprites():
 
-	global h_roads
-	global v_roads
-	global boxes
-	global towers
-	global fans
-	global trees
-	global flowers
-	global pond
-	global arrow
-	h_roads = pygame.sprite.Group()
-	v_roads = pygame.sprite.Group()
-	boxes = pygame.sprite.Group()
-	towers = pygame.sprite.Group()
-	fans = pygame.sprite.Group()
-	trees = pygame.sprite.Group()
-	flowers = pygame.sprite.Group()
-	h_roads.add(Road(0, 75))
-	h_roads.add(Road(0, 375))
-	h_roads.add(Road(0, 675))
-	v_roads.add(Road_2(150, 0))
-	v_roads.add(Road_2(350, 0))
-	v_roads.add(Road_2(550, 0))
-	v_roads.add(Road_2(750, 0))
-	boxes.add(Box(5, 5))
-	boxes.add(Box(495, 20))
-	boxes.add(Box(295, 320))
-	boxes.add(Box(95, 130))
-	boxes.add(Box(605, 320))
-	boxes.add(Box(205, 620))
-	boxes.add(Box(695, 430))
-	boxes.add(Box(945, 620))
-	boxes.add(Box(405, 730))
-	boxes.add(Box(805, 745))
-	towers.add(Tower(0, 275))
-	towers.add(Tower(200, 125))
-	towers.add(Tower(950, 275))
-	towers.add(Tower(300, 575))
-	fans.add(Fan(700, 125))
-	fans.add(Fan(950, 125))
-	fans.add(Fan(0, 625))
-	fans.add(Fan(600, 625))
-	fans.add(Fan(300, 0))
-	fans.add(Fan(200, 750))
-	trees.add(Tree(400, 125))
-	trees.add(Tree(500, 625))
-	flowers.add(Flower(405, 325))
-	flowers.add(Flower(530, 325))
-	flowers.add(Flower(465, 300))
-	flowers.add(Flower(405, 460))
-	flowers.add(Flower(530, 460))
-	flowers.add(Flower(465, 480))
-	pond = Pond(400, 325)
-	arrow = Arrow(875, 25)
+	global decorations
+	decorations = pygame.sprite.Group()
+	decorations.add(Pond(400, 325))
+	decorations.add(Road_2(150, 0))
+	decorations.add(Road_2(350, 0))
+	decorations.add(Road_2(550, 0))
+	decorations.add(Road_2(750, 0))
+	decorations.add(Road(0, 75))
+	decorations.add(Road(0, 375))
+	decorations.add(Road(0, 675))
+	decorations.add(Box(5, 5))
+	decorations.add(Box(495, 20))
+	decorations.add(Box(295, 320))
+	decorations.add(Box(95, 130))
+	decorations.add(Box(605, 320))
+	decorations.add(Box(205, 620))
+	decorations.add(Box(695, 430))
+	decorations.add(Box(945, 620))
+	decorations.add(Box(405, 730))
+	decorations.add(Box(805, 745))
+	decorations.add(Tower(0, 275))
+	decorations.add(Tower(200, 125))
+	decorations.add(Tower(950, 275))
+	decorations.add(Tower(300, 575))
+	decorations.add(Fan(700, 125))
+	decorations.add(Fan(950, 125))
+	decorations.add(Fan(0, 625))
+	decorations.add(Fan(600, 625))
+	decorations.add(Fan(300, 0))
+	decorations.add(Fan(200, 750))
+	decorations.add(Tree(400, 125))
+	decorations.add(Tree(500, 625))
+	decorations.add(Flower(405, 325))
+	decorations.add(Flower(530, 325))
+	decorations.add(Flower(465, 300))
+	decorations.add(Flower(405, 460))
+	decorations.add(Flower(530, 460))
+	decorations.add(Flower(465, 480))
+	decorations.add(Arrow(875, 25))
 
 def draw_map():
 
@@ -130,23 +119,9 @@ def draw_map():
 	DISPLAYSURF.blit(grass, (400, 125))
 	DISPLAYSURF.blit(grass, (400, 425))
 	DISPLAYSURF.blit(logo, (5, 730))
-	DISPLAYSURF.blit(background, (1000, 0))
-	DISPLAYSURF.blit(pond.image, pond.rect)
-	DISPLAYSURF.blit(arrow.image, arrow.rect)
-	for v in v_roads:
-		DISPLAYSURF.blit(v.image, v.rect)
-	for h in h_roads:
-		DISPLAYSURF.blit(h.image, h.rect)
-	for b in boxes:
-		DISPLAYSURF.blit(b.image, b.rect)
-	for t in towers:
-		DISPLAYSURF.blit(t.image, t.rect)
-	for f in fans:
-		DISPLAYSURF.blit(f.image, f.rect)
-	for tr in trees:
-		DISPLAYSURF.blit(tr.image, tr.rect)
-	for fl in flowers:
-		DISPLAYSURF.blit(fl.image, fl.rect)
+	DISPLAYSURF.blit(background, (1000, 100))
+	for d in decorations:
+		DISPLAYSURF.blit(d.image, d.rect)
 	DISPLAYSURF.blit(cone, (150, 25))
 	DISPLAYSURF.blit(cone, (100, 75))
 	DISPLAYSURF.blit(cone, (100, 375))
@@ -155,7 +130,17 @@ def draw_map():
 	DISPLAYSURF.blit(cone, (800, 375))
 	DISPLAYSURF.blit(cone, (750, 725))
 	DISPLAYSURF.blit(cone, (800, 675))
+	DISPLAYSURF.blit(heart, (1075, 20))
+
 	pygame.draw.line(DISPLAYSURF, (255, 255, 255), (1000, 0), (1000, 800), 10)
+	BASICFONT = pygame.font.Font('freesansbold.ttf', 20)
+	text = BASICFONT.render(str(lives), 1, (0,0,0))
+	text_rect = text.get_rect()
+	text_rect.topleft = (1100, 20)
+	DISPLAYSURF.blit(text, text_rect)
+	text = BASICFONT.render("$" + str(money), 1, (0,0,0))
+	text_rect.topleft = (1085, 60)
+	DISPLAYSURF.blit(text, text_rect)
 
 def hero_sprites():
 
@@ -176,20 +161,58 @@ def hero_sprites():
 
 def drag_and_drop():
 
-	#work drag and drop
+	global money
+	for h in heroes:
+		if event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x == h.x:
+			h.moving = True
+		elif event.button == 3 and not pygame.sprite.spritecollideany(h, decorations) and h.rect.x < 960 and h.rect.y < 760:
+			h.moving = False
+			money -= h.cost
+		elif event.button == 3 and h.rect.x > 1000:
+			h.moving = False
+			h.rect.x = h.x
+			h.rect.y = h.y
 
 def draw_heroes():
 
 	for h in heroes:
+		if h.moving:
+			h.place(click, money)
+		if h.rect.x == h.x:
+			BASICFONT = pygame.font.Font('freesansbold.ttf', 15)
+			text = BASICFONT.render("$" + str(h.cost), 1, (255,255,0))
+			text_rect = text.get_rect()
+			text_rect.topleft = (h.x, h.y + h.rect.height + 5)
+			DISPLAYSURF.blit(text, text_rect)
 		DISPLAYSURF.blit(h.image, h.rect)
+
+def round_1():
+
+	global bots
+	bots = pygame.sprite.Group()
+	bots.add(Weak_Bot())
+	bots.add(Blue_Bot())
+	bots.add(Red_Bot())
+	bots.add(Ultron())
+
+def draw_bots():
+
+	global lives
+	for b in bots:
+		if b.rect.x < 0:
+			bots.remove(b)
+			lives += b.health
+		lives -= b.move(counter)
+		DISPLAYSURF.blit(b.image, b.rect)
+
+lives = 100
+money = 500
 
 images()
 map_sprites()
 hero_sprites()
 
 counter = 0
-holding = False
-pick = (0, False)
 while True:
 
 	click = pygame.mouse.get_pos()
@@ -200,10 +223,12 @@ while True:
 			sys.exit()
 
 		if event.type == pygame.MOUSEBUTTONDOWN:
-			#work drag and drop
+			drag_and_drop()
 
+	DISPLAYSURF.fill((255, 255, 255))
 	draw_map()
 	draw_heroes()
+	draw_bots()
 	pygame.display.update()
 	fpsClock.tick(FPS)
 	counter += 1

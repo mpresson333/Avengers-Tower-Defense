@@ -8,12 +8,13 @@ class Thor(pygame.sprite.Sprite):
 
         super().__init__()
         self.x = 1085
-        self.y = 600
+        self.y = 700
         self.image = pygame.image.load('resources/thor.png')
         self.rect = pygame.Rect(self.x, self.y, 40, 50)
         self.speed = 1
         self.range = 100
-        self.cost = 300
+        self.cost = 1000
+        self.moving = False
 
     def place(self, coor, money):
 
