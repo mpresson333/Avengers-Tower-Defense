@@ -18,6 +18,5 @@ class Hulk(pygame.sprite.Sprite):
 
     def place(self, coor, money):
 
-        if money >= self.cost and self.moving:
-            self.rect.x = coor[0]
-            self.rect.y = coor[1]
+        self.rect.x = coor[0]
+        self.rect.y = coor[1]

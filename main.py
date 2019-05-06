@@ -163,7 +163,7 @@ def drag_and_drop():
 
 	global money
 	for h in heroes:
-		if event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x == h.x:
+		if event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x == h.x and money >= h.cost:
 			h.moving = True
 		elif event.button == 3 and not pygame.sprite.spritecollideany(h, decorations) and h.rect.x < 960 and h.rect.y < 760:
 			h.moving = False
@@ -178,7 +178,7 @@ def draw_heroes():
 	for h in heroes:
 		if h.moving:
 			h.place(click, money)
-		if h.rect.x == h.x:
+		if h.rect.x == h.x and not h.moving:
 			BASICFONT = pygame.font.Font('freesansbold.ttf', 15)
 			text = BASICFONT.render("$" + str(h.cost), 1, (255,255,0))
 			text_rect = text.get_rect()
@@ -211,6 +211,7 @@ money = 500
 images()
 map_sprites()
 hero_sprites()
+round_1()
 
 counter = 0
 while True:
