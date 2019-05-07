@@ -145,6 +145,7 @@ def draw_map():
 def hero_sprites():
 
 	global heroes
+	global widow
 	widow = Widow()
 	cap = Cap()
 	tony = Tony()
@@ -200,8 +201,10 @@ def draw_bots():
 	global lives
 	for b in bots:
 		if b.rect.x < 0:
-			bots.remove(b)
+			b.kill()
 			lives += b.health
+		if b.health == 0:
+			b.kill()
 		lives -= b.move(counter)
 		DISPLAYSURF.blit(b.image, b.rect)
 
@@ -230,6 +233,8 @@ while True:
 	draw_map()
 	draw_heroes()
 	draw_bots()
+	for b in bots:
+		money += widow.shoot(b, money, counter, FPS)
 	pygame.display.update()
 	fpsClock.tick(FPS)
 	counter += 1
