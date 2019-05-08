@@ -19,6 +19,7 @@ from thor import Thor
 from tony import Tony
 from hawkeye import Hawkeye
 from hulk import Hulk
+import math
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Avengers Tower Defense")
@@ -178,7 +179,7 @@ def draw_heroes():
 
 	for h in heroes:
 		if h.moving:
-			h.place(click, money)
+			h.place(click)
 		if h.rect.x == h.x and not h.moving:
 			BASICFONT = pygame.font.Font('freesansbold.ttf', 15)
 			text = BASICFONT.render("$" + str(h.cost), 1, (255,255,0))
@@ -234,7 +235,12 @@ while True:
 	draw_heroes()
 	draw_bots()
 	for b in bots:
-		money += widow.shoot(b, money, counter, FPS)
+		if widow.range >= math.sqrt(((widow.rect.centerx - b.rect.centerx)**2) + ((widow.rect.centery - b.rect.centery)**2)) and widow.rect.x != widow.x and not widow.moving:
+			widow.image = pygame.image.load('resources/widow(2).png')
+			if counter % (FPS/widow.speed) == 0:
+				money += widow.shoot(b, counter, FPS)
+		elif counter % 45 == 0:
+			widow.image = pygame.image.load('resources/widow.png')
 	pygame.display.update()
 	fpsClock.tick(FPS)
 	counter += 1

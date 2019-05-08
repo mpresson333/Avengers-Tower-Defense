@@ -16,7 +16,7 @@ class Hawkeye(pygame.sprite.Sprite):
         self.cost = 450
         self.moving = False
 
-    def place(self, coor, money):
+    def place(self, coor):
 
         self.rect.x = coor[0]
         self.rect.y = coor[1]
