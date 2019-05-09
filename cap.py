@@ -1,6 +1,5 @@
 import pygame
 import sys
-from shield import Shield
 import math
 pygame.init()
 
@@ -17,9 +16,17 @@ class Cap(pygame.sprite.Sprite):
         self.range = 150
         self.cost = 450
         self.moving = False
-        self.shield = Shield(self.rect.centerx + 1, self.rect.centery + 1)
+        self.attacking = False
+        self.shield = None
 
     def place(self, coor):
 
         self.rect.x = coor[0]
         self.rect.y = coor[1]
+
+    def change_image(self):
+
+        if self.shield == None:
+            self.image = pygame.image.load('resources/cap.png')
+        else:
+            self.image = pygame.image.load('resources/cap(2.1).png')

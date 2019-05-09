@@ -20,6 +20,7 @@ from tony import Tony
 from hawkeye import Hawkeye
 from hulk import Hulk
 import math
+from shield import Shield
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Avengers Tower Defense")
@@ -147,6 +148,11 @@ def hero_sprites():
 
 	global heroes
 	global widow
+	global cap
+	global tony
+	global thor
+	global hawkeye
+	global hulk
 	widow = Widow()
 	cap = Cap()
 	tony = Tony()
@@ -167,10 +173,10 @@ def drag_and_drop():
 	for h in heroes:
 		if event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x == h.x and money >= h.cost:
 			h.moving = True
-		elif event.button == 3 and not pygame.sprite.spritecollideany(h, decorations) and h.rect.x < 960 and h.rect.y < 760:
+		elif event.button == 3 and not pygame.sprite.spritecollideany(h, decorations) and h.rect.x < 960 and h.rect.y < 760 and h.moving:
 			h.moving = False
 			money -= h.cost
-		elif event.button == 3 and h.rect.x > 1000:
+		elif event.button == 3 and h.rect.x > 1000 and h.moving:
 			h.moving = False
 			h.rect.x = h.x
 			h.rect.y = h.y
@@ -204,10 +210,32 @@ def draw_bots():
 		if b.rect.x < 0:
 			b.kill()
 			lives += b.health
-		if b.health == 0:
+		if b.health <= 0:
 			b.kill()
 		lives -= b.move(counter)
 		DISPLAYSURF.blit(b.image, b.rect)
+
+def widow_attack(bots, widow, counter, FPS):
+
+	global money
+	for b in bots:
+		if widow.range >= math.sqrt((widow.rect.centerx - b.rect.centerx)**2 + (widow.rect.centery - b.rect.centery)**2) and widow.rect.x != widow.x and not widow.moving:
+			money += widow.shoot(b, counter, FPS)
+		widow.change_image(b, counter)
+
+def cap_attack(bots, cap):
+
+	global money
+	for b in bots:
+		if cap.range >= math.sqrt((cap.rect.centerx - b.rect.centerx)**2 + (cap.rect.centery - b.rect.centery)**2) and cap.rect.x != cap.x and not cap.moving and cap.shield == None:
+			cap.shield = Shield(cap.rect.x, cap.rect.y)
+		if cap.shield != None:
+			money += cap.shield.throw(cap, b, bots)
+			DISPLAYSURF.blit(cap.shield.image, cap.shield.rect)
+
+			if cap.rect.x <= cap.shield.rect.x:
+				cap.shield = None
+		cap.change_image()
 
 lives = 100
 money = 500
@@ -234,13 +262,7 @@ while True:
 	draw_map()
 	draw_heroes()
 	draw_bots()
-	for b in bots:
-		if widow.range >= math.sqrt(((widow.rect.centerx - b.rect.centerx)**2) + ((widow.rect.centery - b.rect.centery)**2)) and widow.rect.x != widow.x and not widow.moving:
-			widow.image = pygame.image.load('resources/widow(2).png')
-			if counter % (FPS/widow.speed) == 0:
-				money += widow.shoot(b, counter, FPS)
-		elif counter % 45 == 0:
-			widow.image = pygame.image.load('resources/widow.png')
+	cap_attack(bots, cap)
 	pygame.display.update()
 	fpsClock.tick(FPS)
 	counter += 1
