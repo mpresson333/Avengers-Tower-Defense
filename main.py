@@ -237,6 +237,14 @@ def cap_attack(bots, cap):
 				cap.shield = None
 		cap.change_image()
 
+def hawkeye_attack(bots, hawkeye, counter, FPS):
+
+	global money
+	for b in bots:
+		if hawkeye.range >= math.sqrt((hawkeye.rect.centerx - b.rect.centerx)**2 + (hawkeye.rect.centery - b.rect.centery)**2) and hawkeye.rect.x != hawkeye.x and not hawkeye.moving:
+			money += hawkeye.shoot(b, counter, FPS)
+		hawkeye.change_image(b, counter)
+
 lives = 100
 money = 500
 

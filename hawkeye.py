@@ -1,5 +1,6 @@
 import pygame
 import sys
+import math
 pygame.init()
 
 class Hawkeye(pygame.sprite.Sprite):
@@ -12,7 +13,7 @@ class Hawkeye(pygame.sprite.Sprite):
         self.image = pygame.image.load('resources/hawkeye.png')
         self.rect = pygame.Rect(self.x, self.y, 30, 50)
         self.speed = 2
-        self.range = 200
+        self.range = 300
         self.cost = 450
         self.moving = False
 
@@ -20,3 +21,26 @@ class Hawkeye(pygame.sprite.Sprite):
 
         self.rect.x = coor[0]
         self.rect.y = coor[1]
+
+    def shoot(self, b, counter, FPS):
+
+        if counter % (FPS/self.speed) == 0:
+            self.attacking = True
+        else:
+            self.attacking = False
+
+        if self.attacking:
+            b.health -= 1
+            return 1
+        else:
+            return 0
+
+    def change_image(self, b, counter):
+
+        if self.range >= math.sqrt(((self.rect.centerx - b.rect.centerx)**2) + ((self.rect.centery - b.rect.centery)**2)) and self.rect.x != self.x and not self.moving:
+            if b.rect.centerx < self.rect.centerx:
+                self.image = pygame.image.load('resources/hawkeye(2.2).png')
+            else:
+                self.image = pygame.image.load('resources/hawkeye(2.1).png')
+        elif counter % 45 == 0:
+            self.image = pygame.image.load('resources/hawkeye.png')
