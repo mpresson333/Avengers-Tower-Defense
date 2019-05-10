@@ -15,30 +15,30 @@ class Shield(pygame.sprite.Sprite):
     def throw(self, cap, b, bots):
 
         if self.out:
-            self.rect.x -= 8/len(bots)
+            self.rect.x -= cap.speed/len(bots)
         else:
-            self.rect.x += 8/len(bots)
+            self.rect.x += cap.speed/len(bots)
 
         if cap.rect.x - self.rect.x > 160:
             self.out = False
 
         if pygame.sprite.collide_rect(self, b) and self.out:
             self.out = False
-            if b.health >= 2:
-                b.health -= 2
-                return 2
+            if b.health >= cap.damage:
+                b.health -= cap.damage
+                return cap.damage
             else:
-                b.health -= 1
-                return 1
+                b.health -= cap.health - 1
+                return cap.health - 1
         elif pygame.sprite.collide_rect(self, b) and not self.out:
             self.rect.x = cap.rect.x
             self.rect.y = cap.rect.y
-            if b.health >= 2:
-                b.health -= 2
-                return 2
+            if b.health >= cap.damage:
+                b.health -= cap.damage
+                return cap.damage
             else:
-                b.health -= 1
-                return 1
+                b.health -= cap.damage - 1
+                return cap.damage - 1
 
         else:
             return 0

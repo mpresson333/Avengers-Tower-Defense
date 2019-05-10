@@ -17,6 +17,7 @@ class Widow(pygame.sprite.Sprite):
         self.cost = 300
         self.moving = False
         self.attacking = False
+        self.damage = 1
 
     def place(self, coor):
 
@@ -31,7 +32,7 @@ class Widow(pygame.sprite.Sprite):
             self.attacking = False
 
         if self.attacking:
-            b.health -= 1
+            b.health -= self.damage
             return 1
         else:
             return 0

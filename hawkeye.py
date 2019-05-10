@@ -16,6 +16,7 @@ class Hawkeye(pygame.sprite.Sprite):
         self.range = 300
         self.cost = 450
         self.moving = False
+        self.damage = 1
 
     def place(self, coor):
 
@@ -30,7 +31,7 @@ class Hawkeye(pygame.sprite.Sprite):
             self.attacking = False
 
         if self.attacking:
-            b.health -= 1
+            b.health -= self.damage
             return 1
         else:
             return 0
