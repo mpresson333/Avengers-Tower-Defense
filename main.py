@@ -21,6 +21,7 @@ from hawkeye import Hawkeye
 from hulk import Hulk
 import math
 from shield import Shield
+from hammer import Hammer
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Avengers Tower Defense")
@@ -198,10 +199,8 @@ def round_1():
 
 	global bots
 	bots = pygame.sprite.Group()
-	bots.add(Weak_Bot())
-	bots.add(Blue_Bot())
-	bots.add(Red_Bot())
-	bots.add(Ultron())
+	for x in range(50):
+		bots.add(Weak_Bot(1000 + 10*x))
 
 def draw_bots():
 
@@ -213,15 +212,15 @@ def draw_bots():
 		if b.health <= 0:
 			b.kill()
 		lives -= b.move(counter)
-		DISPLAYSURF.blit(b.image, b.rect)
+		if b.rect.x < 985:
+			DISPLAYSURF.blit(b.image, b.rect)
 
-def widow_attack(bots, widow, counter, FPS):
+def widow_attack(b, widow, counter, FPS):
 
 	global money
-	for b in bots:
-		if widow.range >= math.sqrt((widow.rect.centerx - b.rect.centerx)**2 + (widow.rect.centery - b.rect.centery)**2) and widow.rect.x != widow.x and not widow.moving:
-			money += widow.shoot(b, counter, FPS)
-		widow.change_image(b, counter)
+	if widow.range >= math.sqrt((widow.rect.centerx - b.rect.centerx)**2 + (widow.rect.centery - b.rect.centery)**2) and widow.rect.x != widow.x and not widow.moving and counter >= widow.last + (FPS/widow.speed):
+		money += widow.shoot(b, counter, FPS)
+	widow.change_image(b, counter)
 
 def cap_attack(bots, cap):
 
@@ -229,24 +228,65 @@ def cap_attack(bots, cap):
 	for b in bots:
 		if cap.range >= math.sqrt((cap.rect.centerx - b.rect.centerx)**2 + (cap.rect.centery - b.rect.centery)**2) and cap.rect.x != cap.x and not cap.moving and cap.shield == None:
 			cap.shield = Shield(cap.rect.x, cap.rect.y)
-		if cap.shield != None:
-			money += cap.shield.throw(cap, b, bots)
-			DISPLAYSURF.blit(cap.shield.image, cap.shield.rect)
 
-			if cap.rect.x <= cap.shield.rect.x:
-				cap.shield = None
-		cap.change_image()
+	if cap.shield != None:
+		money += cap.shield.throw(cap, bots)
+		DISPLAYSURF.blit(cap.shield.image, cap.shield.rect)
+		if cap.rect.x <= cap.shield.rect.x:
+			cap.shield = None
 
-def hawkeye_attack(bots, hawkeye, counter, FPS):
+	cap.change_image()
+
+def hawkeye_attack(b, hawkeye, counter, FPS):
+
+	global money
+	if hawkeye.range >= math.sqrt((hawkeye.rect.centerx - b.rect.centerx)**2 + (hawkeye.rect.centery - b.rect.centery)**2) and hawkeye.rect.x != hawkeye.x and not hawkeye.moving and counter >= hawkeye.last + (FPS/hawkeye.speed):
+		money += hawkeye.shoot(b, counter, FPS)
+	hawkeye.change_image(b, counter)
+
+def tony_attack(b, tony, counter, FPS):
+
+	global money
+	if tony.range >= math.sqrt((tony.rect.centerx - b.rect.centerx)**2 + (tony.rect.centery - b.rect.centery)**2) and tony.rect.x != tony.x and not tony.moving and counter >= tony.last + (FPS/tony.speed):
+		money += tony.shoot(b, counter, FPS)
+	tony.change_image(b, counter)
+
+def thor_attack(bots, thor):
 
 	global money
 	for b in bots:
-		if hawkeye.range >= math.sqrt((hawkeye.rect.centerx - b.rect.centerx)**2 + (hawkeye.rect.centery - b.rect.centery)**2) and hawkeye.rect.x != hawkeye.x and not hawkeye.moving:
-			money += hawkeye.shoot(b, counter, FPS)
-		hawkeye.change_image(b, counter)
+		if thor.range >= math.sqrt((thor.rect.centerx - b.rect.centerx)**2 + (thor.rect.centery - b.rect.centery)**2) and thor.rect.x != thor.x and not thor.moving and thor.hammer == None:
+			thor.hammer = Hammer(thor.rect.x, thor.rect.y)
+
+	if thor.hammer != None:
+		money += thor.hammer.throw(thor, bots)
+		DISPLAYSURF.blit(thor.hammer.image, thor.hammer.rect)
+		if thor.rect.x <= thor.hammer.rect.x:
+			thor.hammer = None
+
+	thor.change_image()
+
+def hulk_attack(b, hulk, counter, FPS):
+
+	global money
+	if hulk.range >= math.sqrt((hulk.rect.centerx - b.rect.centerx)**2 + (hulk.rect.centery - b.rect.centery)**2) and hulk.rect.x != hulk.x and not hulk.moving:
+		money += hulk.smash(b, counter, FPS)
+	hulk.change_image(b, counter)
+
+def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS):
+
+	for b in bots:
+		if b.rect.x <= 1000:
+			widow_attack(b, widow, counter, FPS)
+			hawkeye_attack(b, hawkeye, counter, FPS)
+			tony_attack(b, tony, counter, FPS)
+			hulk_attack(b, hulk, counter, FPS)
+
+	cap_attack(bots, cap)
+	thor_attack(bots, thor)
 
 lives = 100
-money = 500
+money = 1000
 
 images()
 map_sprites()
@@ -270,7 +310,7 @@ while True:
 	draw_map()
 	draw_heroes()
 	draw_bots()
-	cap_attack(bots, cap)
+	avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 	pygame.display.update()
 	fpsClock.tick(FPS)
 	counter += 1

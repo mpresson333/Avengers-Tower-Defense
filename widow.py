@@ -18,6 +18,7 @@ class Widow(pygame.sprite.Sprite):
         self.moving = False
         self.attacking = False
         self.damage = 1
+        self.last = 0
 
     def place(self, coor):
 
@@ -27,13 +28,19 @@ class Widow(pygame.sprite.Sprite):
     def shoot(self, b, counter, FPS):
 
         if counter % (FPS/self.speed) == 0:
+            self.last = counter
             self.attacking = True
         else:
             self.attacking = False
 
         if self.attacking:
-            b.health -= self.damage
-            return 1
+            if b.health >= self.damage:
+                b.health -= self.damage
+                return self.damage
+            else:
+                r = b.health
+                b.health = 0
+                return r
         else:
             return 0
 

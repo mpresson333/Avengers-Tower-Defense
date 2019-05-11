@@ -4,11 +4,11 @@ pygame.init()
 
 class Ultron(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self, x):
 
         super().__init__()
         self.image = pygame.image.load('resources/ultron(4.2.1).png')
-        self.rect = pygame.Rect(1000, 80, 30, 40)
+        self.rect = pygame.Rect(x, 80, 30, 40)
         self.health = 8
         self.speed = 8
 

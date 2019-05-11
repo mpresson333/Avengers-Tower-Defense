@@ -16,7 +16,6 @@ class Cap(pygame.sprite.Sprite):
         self.range = 150
         self.cost = 450
         self.moving = False
-        self.attacking = False
         self.shield = None
         self.damage = 2
 
