@@ -215,6 +215,19 @@ def draw_bots():
 		if b.rect.x < 985:
 			DISPLAYSURF.blit(b.image, b.rect)
 
+def direction(c, p):
+
+	if p.rect.centerx >= c.rect.centerx - math.sqrt((c.rect.centerx - p.rect.centerx)**2 + (c.rect.centery - p.rect.centery)**2)/math.sqrt(2):
+	    if p.rect.centerx >= c.rect.centerx + math.sqrt((c.rect.centerx - p.rect.centerx)**2 + (c.rect.centery - p.rect.centery)**2)/math.sqrt(2):
+	        return 4
+	    else:
+	        if p.rect.centery < c.rect.centery:
+	            return 1
+	        else:
+	            return 3
+	else:
+	    return 2
+
 def widow_attack(b, widow, counter, FPS):
 
 	global money
@@ -257,9 +270,10 @@ def thor_attack(bots, thor):
 	for b in bots:
 		if thor.range >= math.sqrt((thor.rect.centerx - b.rect.centerx)**2 + (thor.rect.centery - b.rect.centery)**2) and thor.rect.x != thor.x and not thor.moving and thor.hammer == None:
 			thor.hammer = Hammer(thor.rect.x, thor.rect.y)
+			d = direction(thor, b)
 
 	if thor.hammer != None:
-		money += thor.hammer.throw(thor, bots)
+		money += thor.hammer.throw(thor, bots, d)
 		DISPLAYSURF.blit(thor.hammer.image, thor.hammer.rect)
 		if thor.rect.x <= thor.hammer.rect.x:
 			thor.hammer = None

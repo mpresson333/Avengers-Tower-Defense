@@ -22,27 +22,26 @@ class Shield(pygame.sprite.Sprite):
         if cap.rect.x - self.rect.x >= 160:
             self.out = False
 
-        for b in bots:
-            if pygame.sprite.collide_rect(self, b) and self.out:
-                self.out = False
-                if b.health >= cap.damage:
-                    b.health -= cap.damage
-                    return cap.damage
-                else:
-                    r = b.health
-                    b.health = 0
-                    return r
-
-            elif pygame.sprite.collide_rect(self, b) and not self.out:
-                self.rect.x = cap.rect.x
-                self.rect.y = cap.rect.y
-                if b.health >= cap.damage:
-                    b.health -= cap.damage
-                    return cap.damage
-                else:
-                    r = b.health
-                    b.health = 0
-                    return r
-
+        if pygame.sprite.spritecollideany(self, bots) and self.out:
+            self.out = False
+            if b.health >= cap.damage:
+                b.health -= cap.damage
+                return cap.damage
             else:
-                return 0
+                r = b.health
+                b.health = 0
+                return r
+
+        elif pygame.sprite.spritecollideany(self, bots) and not self.out:
+            self.rect.x = cap.rect.x
+            self.rect.y = cap.rect.y
+            if b.health >= cap.damage:
+                b.health -= cap.damage
+                return cap.damage
+            else:
+                r = b.health
+                b.health = 0
+                return r
+
+        else:
+            return 0

@@ -12,18 +12,47 @@ class Hammer(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 15, 15)
         self.out = True
 
-    def throw(self, thor, bots):
+    def throw(self, thor, bots, d):
 
-        if self.out:
-            self.rect.x -= thor.speed
-        else:
-            self.rect.x += thor.speed
+        if d == 1:
+            if self.out:
+                self.rect.y -= thor.speed
+            else:
+                self.rect.y += thor.speed
 
-        if thor.rect.x - self.rect.x >= 160:
-            self.out = False
+            if thor.rect.y - self.rect.y >= 160:
+                self.out = False
 
-        for b in bots:
-            if pygame.sprite.collide_rect(self, b) and self.out:
+        elif d == 2:
+            if self.out:
+                self.rect.x -= thor.speed
+            else:
+                self.rect.x += thor.speed
+
+            if thor.rect.x - self.rect.x >= 160:
+                self.out = False
+
+        elif d == 3:
+            if self.out:
+                self.rect.y += thor.speed
+            else:
+                self.rect.y -= thor.speed
+
+            if self.rect.y - thor.rect.y >= 160:
+                self.out = False
+
+        elif d == 4:
+            if self.out:
+                self.rect.x += thor.speed
+            else:
+                self.rect.x -= thor.speed
+
+            if self.rect.x - thor.rect.x >= 160:
+                self.out = False
+
+        b = pygame.sprite.spritecollideany(self, bots)
+        if b != None:
+            if self.out:
                 self.out = False
                 if b.health >= thor.damage:
                     b.health -= thor.damage
@@ -33,7 +62,7 @@ class Hammer(pygame.sprite.Sprite):
                     b.health = 0
                     return r
 
-            elif pygame.sprite.collide_rect(self, b) and not self.out:
+            else:
                 self.rect.x = thor.rect.x
                 self.rect.y = thor.rect.y
                 if b.health >= thor.damage:
@@ -44,5 +73,5 @@ class Hammer(pygame.sprite.Sprite):
                     b.health = 0
                     return r
 
-            else:
-                return 0
+        else:
+            return 0
