@@ -181,15 +181,7 @@ def drag_and_drop():
 			h.moving = False
 			h.rect.x = h.x
 			h.rect.y = h.y
-
-def upgrade():
-
-	global money
-	for h in heroes:
-		if event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x != h.x:
-			pygame.draw.rect(DISPLAYSURF, (255, 255, 255), (1000, 0, 1200, 800))
 			
-
 def draw_heroes():
 
 	for h in heroes:
@@ -323,7 +315,6 @@ while True:
 
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			drag_and_drop()
-			#upgrade()
 
 	DISPLAYSURF.fill((255, 255, 255))
 	draw_map()
