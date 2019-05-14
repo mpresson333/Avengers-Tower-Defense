@@ -1,6 +1,5 @@
 import pygame
 import sys
-import math
 pygame.init()
 
 class Hammer(pygame.sprite.Sprite):
@@ -8,13 +7,14 @@ class Hammer(pygame.sprite.Sprite):
     def __init__(self, x, y):
 
         super().__init__()
-        self.image = pygame.image.load('resources/hammer.png')
+        self.image = None
         self.rect = pygame.Rect(x, y, 15, 15)
         self.out = True
 
-    def throw(self, thor, bots, d):
+    def throw(self, thor, bots, DISPLAYSURF):
 
-        if d == 1:
+        if thor.direction== 1:
+            self.image = self.image = pygame.image.load('resources/hammer(3).png')
             if self.out:
                 self.rect.y -= thor.speed
             else:
@@ -23,7 +23,11 @@ class Hammer(pygame.sprite.Sprite):
             if thor.rect.y - self.rect.y >= 160:
                 self.out = False
 
-        elif d == 2:
+            if self.rect.y >= thor.rect.y:
+                thor.hammer = None
+
+        elif thor.direction== 2:
+            self.image = pygame.image.load('resources/hammer.png')
             if self.out:
                 self.rect.x -= thor.speed
             else:
@@ -32,7 +36,11 @@ class Hammer(pygame.sprite.Sprite):
             if thor.rect.x - self.rect.x >= 160:
                 self.out = False
 
-        elif d == 3:
+            if self.rect.x >= thor.rect.x:
+                thor.hammer = None
+
+        elif thor.direction== 3:
+            self.image = pygame.image.load('resources/hammer(4).png')
             if self.out:
                 self.rect.y += thor.speed
             else:
@@ -41,7 +49,11 @@ class Hammer(pygame.sprite.Sprite):
             if self.rect.y - thor.rect.y >= 160:
                 self.out = False
 
-        elif d == 4:
+            if self.rect.y <= thor.rect.y:
+                thor.hammer = None
+
+        else:
+            self.image = pygame.image.load('resources/hammer(2).png')
             if self.out:
                 self.rect.x += thor.speed
             else:
@@ -49,6 +61,12 @@ class Hammer(pygame.sprite.Sprite):
 
             if self.rect.x - thor.rect.x >= 160:
                 self.out = False
+
+            if self.rect.x <= thor.rect.x:
+                thor.hammer = None
+
+        if thor.hammer != None:
+            DISPLAYSURF.blit(self.image, self.rect)
 
         b = pygame.sprite.spritecollideany(self, bots)
         if b != None:

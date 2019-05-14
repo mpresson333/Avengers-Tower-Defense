@@ -17,6 +17,7 @@ class Thor(pygame.sprite.Sprite):
         self.moving = False
         self.hammer = None
         self.damage = 3
+        self.direction = 0
 
     def place(self, coor):
 

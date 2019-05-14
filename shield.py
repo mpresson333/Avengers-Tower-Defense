@@ -1,6 +1,5 @@
 import pygame
 import sys
-import math
 pygame.init()
 
 class Shield(pygame.sprite.Sprite):
@@ -12,36 +11,81 @@ class Shield(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 20, 20)
         self.out = True
 
-    def throw(self, cap, bots):
+    def throw(self, cap, bots, DISPLAYSURF):
 
-        if self.out:
-            self.rect.x -= cap.speed
+        if cap.direction== 1:
+            if self.out:
+                self.rect.y -= cap.speed
+            else:
+                self.rect.y += cap.speed
+
+            if cap.rect.y - self.rect.y >= 160:
+                self.out = False
+
+            if self.rect.y >= cap.rect.y:
+                cap.shield = None
+
+        elif cap.direction== 2:
+            if self.out:
+                self.rect.x -= cap.speed
+            else:
+                self.rect.x += cap.speed
+
+            if cap.rect.x - self.rect.x >= 160:
+                self.out = False
+
+            if self.rect.x >= cap.rect.x:
+                cap.shield = None
+
+        elif cap.direction== 3:
+            if self.out:
+                self.rect.y += cap.speed
+            else:
+                self.rect.y -= cap.speed
+
+            if self.rect.y - cap.rect.y >= 160:
+                self.out = False
+
+            if self.rect.y <= cap.rect.y:
+                cap.shield = None
+
         else:
-            self.rect.x += cap.speed
-
-        if cap.rect.x - self.rect.x >= 160:
-            self.out = False
-
-        if pygame.sprite.spritecollideany(self, bots) and self.out:
-            self.out = False
-            if b.health >= cap.damage:
-                b.health -= cap.damage
-                return cap.damage
+            if self.out:
+                self.rect.x += cap.speed
             else:
-                r = b.health
-                b.health = 0
-                return r
+                self.rect.x -= cap.speed
 
-        elif pygame.sprite.spritecollideany(self, bots) and not self.out:
-            self.rect.x = cap.rect.x
-            self.rect.y = cap.rect.y
-            if b.health >= cap.damage:
-                b.health -= cap.damage
-                return cap.damage
+            if self.rect.x - cap.rect.x >= 160:
+                self.out = False
+
+            if self.rect.x <= cap.rect.x:
+                cap.shield = None
+
+        if cap.shield != None:
+            DISPLAYSURF.blit(self.image, self.rect)
+
+        b = pygame.sprite.spritecollideany(self, bots)
+        if b != None:
+            if self.out:
+                self.out = False
+                if b.health >= cap.damage:
+                    b.health -= cap.damage
+                    return cap.damage
+                else:
+                    r = b.health
+                    b.health = 0
+                    return r
+
             else:
-                r = b.health
-                b.health = 0
-                return r
+                self.rect.x = cap.rect.x
+                self.rect.y = cap.rect.y
+                if b.health >= cap.damage:
+                    b.health -= cap.damage
+                    return cap.damage
+                else:
+                    r = b.health
+                    b.health = 0
+                    return r
 
         else:
             return 0

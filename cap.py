@@ -1,6 +1,5 @@
 import pygame
 import sys
-import math
 pygame.init()
 
 class Cap(pygame.sprite.Sprite):
@@ -18,6 +17,7 @@ class Cap(pygame.sprite.Sprite):
         self.moving = False
         self.shield = None
         self.damage = 2
+        self.direction = 0
 
     def place(self, coor):
 
@@ -29,4 +29,7 @@ class Cap(pygame.sprite.Sprite):
         if self.shield == None:
             self.image = pygame.image.load('resources/cap.png')
         else:
-            self.image = pygame.image.load('resources/cap(2.1).png')
+            if self.shield.rect.x > self.rect.x or self.shield.rect.y > self.rect.y:
+                self.image = pygame.image.load('resources/cap(2.2).png')
+            else:
+                self.image = pygame.image.load('resources/cap(2.1).png')

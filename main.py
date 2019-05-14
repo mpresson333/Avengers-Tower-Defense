@@ -173,7 +173,7 @@ def drag_and_drop():
 	global money
 	for h in heroes:
 		if event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x == h.x and money >= h.cost:
-			h.moving = True
+				h.moving = True
 		elif event.button == 3 and not pygame.sprite.spritecollideany(h, decorations) and h.rect.x < 960 and h.rect.y < 760 and h.moving:
 			h.moving = False
 			money -= h.cost
@@ -181,6 +181,14 @@ def drag_and_drop():
 			h.moving = False
 			h.rect.x = h.x
 			h.rect.y = h.y
+
+def upgrade():
+
+	global money
+	for h in heroes:
+		if event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x != h.x:
+			pygame.draw.rect(DISPLAYSURF, (255, 255, 255), (1000, 0, 1200, 800))
+			
 
 def draw_heroes():
 
@@ -200,7 +208,7 @@ def round_1():
 	global bots
 	bots = pygame.sprite.Group()
 	for x in range(50):
-		bots.add(Weak_Bot(1000 + 10*x))
+		bots.add(Weak_Bot(1000 + 20*x))
 
 def draw_bots():
 
@@ -241,12 +249,10 @@ def cap_attack(bots, cap):
 	for b in bots:
 		if cap.range >= math.sqrt((cap.rect.centerx - b.rect.centerx)**2 + (cap.rect.centery - b.rect.centery)**2) and cap.rect.x != cap.x and not cap.moving and cap.shield == None:
 			cap.shield = Shield(cap.rect.x, cap.rect.y)
+			cap.direction = direction(cap, b)
 
 	if cap.shield != None:
-		money += cap.shield.throw(cap, bots)
-		DISPLAYSURF.blit(cap.shield.image, cap.shield.rect)
-		if cap.rect.x <= cap.shield.rect.x:
-			cap.shield = None
+		money += cap.shield.throw(cap, bots, DISPLAYSURF)
 
 	cap.change_image()
 
@@ -270,13 +276,10 @@ def thor_attack(bots, thor):
 	for b in bots:
 		if thor.range >= math.sqrt((thor.rect.centerx - b.rect.centerx)**2 + (thor.rect.centery - b.rect.centery)**2) and thor.rect.x != thor.x and not thor.moving and thor.hammer == None:
 			thor.hammer = Hammer(thor.rect.x, thor.rect.y)
-			d = direction(thor, b)
+			thor.direction = direction(thor, b)
 
 	if thor.hammer != None:
-		money += thor.hammer.throw(thor, bots, d)
-		DISPLAYSURF.blit(thor.hammer.image, thor.hammer.rect)
-		if thor.rect.x <= thor.hammer.rect.x:
-			thor.hammer = None
+		money += thor.hammer.throw(thor, bots, DISPLAYSURF)
 
 	thor.change_image()
 
@@ -308,6 +311,7 @@ hero_sprites()
 round_1()
 
 counter = 0
+pause = False
 while True:
 
 	click = pygame.mouse.get_pos()
@@ -319,6 +323,7 @@ while True:
 
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			drag_and_drop()
+			#upgrade()
 
 	DISPLAYSURF.fill((255, 255, 255))
 	draw_map()
