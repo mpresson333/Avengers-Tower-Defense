@@ -181,7 +181,7 @@ def drag_and_drop():
 			h.moving = False
 			h.rect.x = h.x
 			h.rect.y = h.y
-			
+
 def draw_heroes():
 
 	for h in heroes:
@@ -294,6 +294,19 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 	cap_attack(bots, cap)
 	thor_attack(bots, thor)
 
+def upgrade():
+
+	global upgrading
+	for h in heroes:
+		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x != h.x:
+			upgrading == True
+			pygame.draw.rect(DISPLAYSURF, (255, 255, 255), (1000, 100, 1200, 800))
+			DISPLAYSURF.blit(h.button_1.image, h.button_1.rect)
+			DISPLAYSURF.blit(h.button_2.image, h.button_2.rect)
+			#upgrade text
+		else:
+			upgrading = False
+
 lives = 100
 money = 1000
 
@@ -304,6 +317,7 @@ round_1()
 
 counter = 0
 pause = False
+upgrading = False
 while True:
 
 	click = pygame.mouse.get_pos()
@@ -314,12 +328,14 @@ while True:
 			sys.exit()
 
 		if event.type == pygame.MOUSEBUTTONDOWN:
-			drag_and_drop()
+			if not upgrading:
+				drag_and_drop()
 
 	DISPLAYSURF.fill((255, 255, 255))
 	draw_map()
 	draw_heroes()
 	draw_bots()
+	upgrade()
 	avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 	pygame.display.update()
 	fpsClock.tick(FPS)
