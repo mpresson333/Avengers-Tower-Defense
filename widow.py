@@ -1,6 +1,7 @@
 import pygame
 import sys
 import math
+from button import Button
 pygame.init()
 
 class Widow(pygame.sprite.Sprite):
@@ -19,6 +20,8 @@ class Widow(pygame.sprite.Sprite):
         self.attacking = False
         self.damage = 1
         self.last = 0
+        self.button_1 = Button(1025, 125, "Double damage", 300)
+        self.button_2 = Button(1025, 475, "Increase range by 50%", 300)
 
     def place(self, coor):
 

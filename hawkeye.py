@@ -1,6 +1,7 @@
 import pygame
 import sys
 import math
+from button import Button
 pygame.init()
 
 class Hawkeye(pygame.sprite.Sprite):
@@ -18,6 +19,8 @@ class Hawkeye(pygame.sprite.Sprite):
         self.moving = False
         self.damage = 1
         self.last = 0
+        self.button_1 = Button(1025, 125, "Increase attack speed by 50%", 300)
+        self.button_2 = Button(1025, 475, "Double damage", 300)
 
     def place(self, coor):
 

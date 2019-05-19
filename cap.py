@@ -1,5 +1,6 @@
 import pygame
 import sys
+from button import Button
 pygame.init()
 
 class Cap(pygame.sprite.Sprite):
@@ -11,13 +12,15 @@ class Cap(pygame.sprite.Sprite):
         self.y = 340
         self.image = pygame.image.load('resources/cap.png')
         self.rect = pygame.Rect(self.x, self.y, 50, 50)
-        self.speed = 8
+        self.speed = 5
         self.range = 150
         self.cost = 450
         self.moving = False
         self.shield = None
-        self.damage = 2
+        self.damage = 1
         self.direction = 0
+        self.button_1 = Button(1025, 125, "Increase shield speed by 60%", 300)
+        self.button_2 = Button(1025, 475, "Double damage", 300)
 
     def place(self, coor):
 

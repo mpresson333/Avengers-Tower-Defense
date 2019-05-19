@@ -1,5 +1,6 @@
 import pygame
 import sys
+from button import Button
 pygame.init()
 
 class Thor(pygame.sprite.Sprite):
@@ -11,13 +12,15 @@ class Thor(pygame.sprite.Sprite):
         self.y = 700
         self.image = pygame.image.load('resources/thor.png')
         self.rect = pygame.Rect(self.x, self.y, 40, 50)
-        self.speed = 12
+        self.speed = 8
         self.range = 150
         self.cost = 1000
         self.moving = False
         self.hammer = None
-        self.damage = 3
+        self.damage = 2
         self.direction = 0
+        self.button_1 = Button(1025, 125, "Increase attack speed by 50%", 300)
+        self.button_2 = Button(1025, 475, "Double damage", 300)
 
     def place(self, coor):
 

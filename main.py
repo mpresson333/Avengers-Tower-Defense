@@ -294,18 +294,75 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 	cap_attack(bots, cap)
 	thor_attack(bots, thor)
 
-def upgrade():
+	if widow.button_1.pressed:
+		widow.damage = 2
+	if widow.button_2.pressed:
+		widow.range = 225
+
+	if cap.button_1.pressed:
+		cap.speed = 8
+	if cap.button_2.pressed:
+		cap.damage = 2
+
+	if hawkeye.button_1.pressed:
+		hawkeye.speed = 3
+	if hawkeye.button_2.pressed:
+		hawkeye.damage = 2
+
+	if hulk.button_1.pressed:
+		hulk.range = 150
+	if hulk.button_2.pressed:
+		hulk.speed = 2
+
+	if thor.button_1.pressed:
+		thor.speed = 12
+	if thor.button_2.pressed:
+		thor.damage = 4
+
+	if tony.button_1.pressed:
+		tony.speed = 4
+	if tony.button_2.pressed:
+		tony.range = 225
+
+def upgrade(money):
 
 	global upgrading
+	global hero
 	for h in heroes:
-		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x != h.x:
-			upgrading == True
+
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost:
+			h.button_1.pressed = True
+			money -= h.button_1.cost
+			h.button_1.image = pygame.image.load('resources/button(2).png')
+
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_2.rect.x and click[0] < h.button_2.rect.x + 150 and click[1] > h.button_2.rect.y and click[1] < h.button_2.rect.y + 300 and h.rect.x != h.x and money >= h.button_2.cost:
+			h.button_2.pressed = True
+			money -= h.button_1.cost
+			h.button_2.image = pygame.image.load('resources/button(2).png')
+
+		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click2[0] > h.rect.x and click2[0] < h.rect.x + 150 and click2[1] > h.rect.y and click2[1] < h.rect.y + 3000 and h.rect.x != h.x:
+			upgrading = True
+			hero = h
+
+		if upgrading and hero != None:
 			pygame.draw.rect(DISPLAYSURF, (255, 255, 255), (1000, 100, 1200, 800))
-			DISPLAYSURF.blit(h.button_1.image, h.button_1.rect)
-			DISPLAYSURF.blit(h.button_2.image, h.button_2.rect)
-			#upgrade text
-		else:
-			upgrading = False
+			DISPLAYSURF.blit(hero.button_1.image, hero.button_1.rect)
+			DISPLAYSURF.blit(hero.button_2.image, hero.button_2.rect)
+			BASICFONT = pygame.font.Font('freesansbold.ttf', 10)
+			text = BASICFONT.render(hero.button_1.text, 1, (0,0,0))
+			text_rect = text.get_rect()
+			text_rect.topleft = (1050, 270)
+			DISPLAYSURF.blit(text, text_rect)
+			text = BASICFONT.render(hero.button_2.text, 1, (0,0,0))
+			text_rect.topleft = (1050, 620)
+			DISPLAYSURF.blit(text, text_rect)
+			text = BASICFONT.render("Press escape to exit", 1, (0,0,0))
+			text_rect.topleft = (1050, 100)
+			DISPLAYSURF.blit(text, text_rect)
+
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_ESCAPE:
+				upgrading = False
 
 lives = 100
 money = 1000
@@ -318,7 +375,9 @@ round_1()
 counter = 0
 pause = False
 upgrading = False
+hero = None
 while True:
+
 
 	click = pygame.mouse.get_pos()
 	for event in pygame.event.get():
@@ -328,6 +387,7 @@ while True:
 			sys.exit()
 
 		if event.type == pygame.MOUSEBUTTONDOWN:
+			click2 = pygame.mouse.get_pos()
 			if not upgrading:
 				drag_and_drop()
 
@@ -335,7 +395,7 @@ while True:
 	draw_map()
 	draw_heroes()
 	draw_bots()
-	upgrade()
+	upgrade(money)
 	avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 	pygame.display.update()
 	fpsClock.tick(FPS)

@@ -1,6 +1,7 @@
 import pygame
 import sys
 import math
+from button import Button
 pygame.init()
 
 class Hulk(pygame.sprite.Sprite):
@@ -17,6 +18,8 @@ class Hulk(pygame.sprite.Sprite):
         self.cost = 600
         self.moving = False
         self.damage = 3
+        self.button_1 = Button(1025, 125, "Increase attack range by 50%", 300)
+        self.button_2 = Button(1025, 475, "Double attack speed", 300)
 
     def place(self, coor):
 
