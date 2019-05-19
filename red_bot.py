@@ -28,7 +28,7 @@ class Red_Bot(pygame.sprite.Sprite):
             elif counter % 31 == 15:
                 self.rect.x -= 5
 
-        elif self.rect.x < 755 and self.rect.y < 387:
+        elif self.rect.x < 755 and self.rect.y < 390:
             self.rect.x += self.speed
             if counter % 31 == 0:
                 self.rect.y += 5

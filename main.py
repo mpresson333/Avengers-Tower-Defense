@@ -144,6 +144,9 @@ def draw_map():
 	text = BASICFONT.render("$" + str(money), 1, (0,0,0))
 	text_rect.topleft = (1085, 60)
 	DISPLAYSURF.blit(text, text_rect)
+	text = BASICFONT.render("Round " + str(round), 1, (0,0,0))
+	text_rect.topleft = (900, 775)
+	DISPLAYSURF.blit(text, text_rect)
 
 def hero_sprites():
 
@@ -194,13 +197,6 @@ def draw_heroes():
 			text_rect.topleft = (h.x, h.y + h.rect.height + 5)
 			DISPLAYSURF.blit(text, text_rect)
 		DISPLAYSURF.blit(h.image, h.rect)
-
-def round_1():
-
-	global bots
-	bots = pygame.sprite.Group()
-	for x in range(50):
-		bots.add(Weak_Bot(1000 + 20*x))
 
 def draw_bots():
 
@@ -324,10 +320,19 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 	if tony.button_2.pressed:
 		tony.range = 225
 
-def upgrade(money):
+	if len(bots) == 0:
+		cap.image = pygame.image.load('resources/cap.png')
+		hawkeye.image = pygame.image.load('resources/hawkeye.png')
+		hulk.image = pygame.image.load('resources/hulk.png')
+		thor.image = pygame.image.load('resources/thor.png')
+		tony.image = pygame.image.load('resources/tony.png')
+		widow.image = pygame.image.load('resources/widow.png')
+
+def upgrade():
 
 	global upgrading
 	global hero
+	global money
 	for h in heroes:
 
 		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost:
@@ -360,22 +365,72 @@ def upgrade(money):
 			text_rect.topleft = (1050, 100)
 			DISPLAYSURF.blit(text, text_rect)
 
-		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_ESCAPE:
-				upgrading = False
+def spawn_bots(round):
+
+	for b in round_list[round - 1]:
+		bots.add(b)
+
+def rounds():
+
+	round_1 = [Weak_Bot(1000)]
+	round_2 = [Blue_Bot(1000)]
+	round_3 = [Red_Bot(1000)]
+	round_4 = [Ultron(1000)]
+	round_5 = [Weak_Bot(1000), Blue_Bot(1000), Red_Bot(1000), Ultron(1000)]
+	round_6 = []
+	for x in range(50):
+		round_6.append(Weak_Bot(1000 + 20*x))
+	round_7 = []
+	for x in range(30):
+		round_7.append(Blue_Bot(1000 + 20*x))
+	round_8 = []
+	for x in range(20):
+		round_8.append(Red_Bot(1000 + 20*x))
+	round_9 = []
+	for x in range(10):
+		round_9.append(Ultron(1000 + 20*x))
+	round_10 = []
+	for x in range(50):
+		round_10.append(Weak_Bot(1000 + 20*x))
+	for x in range(30):
+		round_10.append(Blue_Bot(2000 + 20*x))
+	for x in range(20):
+		round_10.append(Red_Bot(2600 + 20*x))
+	for x in range(10):
+		round_10.append(Ultron(3000 + 20*x))
+	return round_1, round_2, round_3, round_4, round_5, round_6, round_7, round_8, round_9, round_10
+
+def win_screen():
+
+	DISPLAYSURF.fill((255, 255, 255))
+	BASICFONT = pygame.font.Font('freesansbold.ttf', 100)
+	text = BASICFONT.render("YOU WIN!", 1, (0,0,0))
+	text_rect = text.get_rect()
+	text_rect.topleft = (400, 350)
+	DISPLAYSURF.blit(text, text_rect)
+
+def lose_screen():
+
+	DISPLAYSURF.fill((255, 255, 255))
+	BASICFONT = pygame.font.Font('freesansbold.ttf', 100)
+	text = BASICFONT.render("YOU LOSE!", 1, (0,0,0))
+	text_rect = text.get_rect()
+	text_rect.topleft = (400, 350)
+	DISPLAYSURF.blit(text, text_rect)
 
 lives = 100
-money = 1000
+money = 10000
 
 images()
 map_sprites()
 hero_sprites()
-round_1()
 
 counter = 0
-pause = False
 upgrading = False
 hero = None
+round = 0
+bots = pygame.sprite.Group()
+round_list = rounds()
 while True:
 
 
@@ -391,12 +446,24 @@ while True:
 			if not upgrading:
 				drag_and_drop()
 
+		if event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_ESCAPE:
+				upgrading = False
+			elif event.key == pygame.K_SPACE and len(bots) == 0:
+				round += 1
+				if round <= len(round_list):
+					spawn_bots(round)
+
 	DISPLAYSURF.fill((255, 255, 255))
 	draw_map()
 	draw_heroes()
 	draw_bots()
-	upgrade(money)
+	upgrade()
 	avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
+	if round > 10:
+		win_screen()
+	if lives < 1:
+		lose_screen()
 	pygame.display.update()
 	fpsClock.tick(FPS)
 	counter += 1
