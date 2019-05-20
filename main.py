@@ -290,41 +290,35 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 	cap_attack(bots, cap)
 	thor_attack(bots, thor)
 
-	if widow == hero:
-		if widow.button_1.pressed:
-			widow.damage = 2
-		if widow.button_2.pressed:
-			widow.range = 225
+	if widow.button_1.pressed:
+		widow.damage = 2
+	if widow.button_2.pressed:
+		widow.range = 225
 
-	if cap == hero:
-		if cap.button_1.pressed:
-			cap.speed = 8
-		if cap.button_2.pressed:
-			cap.damage = 2
+	if cap.button_1.pressed:
+		cap.speed = 8
+	if cap.button_2.pressed:
+		cap.damage = 2
 
-	if hawkeye == hero:
-		if hawkeye.button_1.pressed:
-			hawkeye.speed = 3
-		if hawkeye.button_2.pressed:
-			hawkeye.damage = 2
+	if hawkeye.button_1.pressed:
+		hawkeye.speed = 3
+	if hawkeye.button_2.pressed:
+		hawkeye.damage = 2
 
-	if hulk == hero:
-		if hulk.button_1.pressed:
-			hulk.range = 150
-		if hulk.button_2.pressed:
-			hulk.speed = 2
+	if hulk.button_1.pressed:
+		hulk.range = 150
+	if hulk.button_2.pressed:
+		hulk.speed = 2
 
-	if thor == hero:
-		if thor.button_1.pressed:
-			thor.speed = 12
-		if thor.button_2.pressed:
-			thor.damage = 4
+	if thor.button_1.pressed:
+		thor.speed = 12
+	if thor.button_2.pressed:
+		thor.damage = 4
 
-	if tony == hero:
-		if tony.button_1.pressed:
-			tony.speed = 4
-		if tony.button_2.pressed:
-			tony.range = 225
+	if tony.button_1.pressed:
+		tony.speed = 4
+	if tony.button_2.pressed:
+		tony.range = 225
 
 	if len(bots) == 0:
 		hawkeye.image = pygame.image.load('resources/hawkeye.png')
@@ -339,17 +333,17 @@ def upgrade():
 	global money
 	for h in heroes:
 
-		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost:
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost and h == hero:
 			h.button_1.pressed = True
 			money -= h.button_1.cost
 			h.button_1.image = pygame.image.load('resources/button(2).png')
 
-		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_2.rect.x and click[0] < h.button_2.rect.x + 150 and click[1] > h.button_2.rect.y and click[1] < h.button_2.rect.y + 300 and h.rect.x != h.x and money >= h.button_2.cost:
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_2.rect.x and click[0] < h.button_2.rect.x + 150 and click[1] > h.button_2.rect.y and click[1] < h.button_2.rect.y + 300 and h.rect.x != h.x and money >= h.button_2.cost and h == hero:
 			h.button_2.pressed = True
 			money -= h.button_1.cost
 			h.button_2.image = pygame.image.load('resources/button(2).png')
 
-		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click2[0] > h.rect.x and click2[0] < h.rect.x + 150 and click2[1] > h.rect.y and click2[1] < h.rect.y + 3000 and h.rect.x != h.x:
+		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click2[0] > h.rect.x and click2[0] < h.rect.x + 150 and click2[1] > h.rect.y and click2[1] < h.rect.y + 3000 and h.rect.x != h.x and not h.moving:
 			upgrading = True
 			hero = h
 
