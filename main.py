@@ -25,7 +25,7 @@ from hammer import Hammer
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Avengers Tower Defense")
-FPS = 60
+FPS = 30
 fpsClock = pygame.time.Clock()
 bots = []
 
@@ -176,7 +176,7 @@ def drag_and_drop():
 	global money
 	for h in heroes:
 		if event.button == 1 and click[0] > h.rect.x and click[0] < h.rect.x + 40 and click[1] > h.rect.y and click[1] < h.rect.y + 50 and h.rect.x == h.x and money >= h.cost:
-				h.moving = True
+			h.moving = True
 		elif event.button == 3 and not pygame.sprite.spritecollideany(h, decorations) and h.rect.x < 960 and h.rect.y < 760 and h.moving:
 			h.moving = False
 			money -= h.cost
@@ -290,41 +290,45 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 	cap_attack(bots, cap)
 	thor_attack(bots, thor)
 
-	if widow.button_1.pressed:
-		widow.damage = 2
-	if widow.button_2.pressed:
-		widow.range = 225
+	if widow == hero:
+		if widow.button_1.pressed:
+			widow.damage = 2
+		if widow.button_2.pressed:
+			widow.range = 225
 
-	if cap.button_1.pressed:
-		cap.speed = 8
-	if cap.button_2.pressed:
-		cap.damage = 2
+	if cap == hero:
+		if cap.button_1.pressed:
+			cap.speed = 8
+		if cap.button_2.pressed:
+			cap.damage = 2
 
-	if hawkeye.button_1.pressed:
-		hawkeye.speed = 3
-	if hawkeye.button_2.pressed:
-		hawkeye.damage = 2
+	if hawkeye == hero:
+		if hawkeye.button_1.pressed:
+			hawkeye.speed = 3
+		if hawkeye.button_2.pressed:
+			hawkeye.damage = 2
 
-	if hulk.button_1.pressed:
-		hulk.range = 150
-	if hulk.button_2.pressed:
-		hulk.speed = 2
+	if hulk == hero:
+		if hulk.button_1.pressed:
+			hulk.range = 150
+		if hulk.button_2.pressed:
+			hulk.speed = 2
 
-	if thor.button_1.pressed:
-		thor.speed = 12
-	if thor.button_2.pressed:
-		thor.damage = 4
+	if thor == hero:
+		if thor.button_1.pressed:
+			thor.speed = 12
+		if thor.button_2.pressed:
+			thor.damage = 4
 
-	if tony.button_1.pressed:
-		tony.speed = 4
-	if tony.button_2.pressed:
-		tony.range = 225
+	if tony == hero:
+		if tony.button_1.pressed:
+			tony.speed = 4
+		if tony.button_2.pressed:
+			tony.range = 225
 
 	if len(bots) == 0:
-		cap.image = pygame.image.load('resources/cap.png')
 		hawkeye.image = pygame.image.load('resources/hawkeye.png')
 		hulk.image = pygame.image.load('resources/hulk.png')
-		thor.image = pygame.image.load('resources/thor.png')
 		tony.image = pygame.image.load('resources/tony.png')
 		widow.image = pygame.image.load('resources/widow.png')
 
