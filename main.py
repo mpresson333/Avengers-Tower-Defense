@@ -343,7 +343,7 @@ def upgrade():
 			money -= h.button_1.cost
 			h.button_2.image = pygame.image.load('resources/button(2).png')
 
-		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click2[0] > h.rect.x and click2[0] < h.rect.x + 150 and click2[1] > h.rect.y and click2[1] < h.rect.y + 3000 and h.rect.x != h.x and not h.moving:
+		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click2[0] > h.rect.x and click2[0] < h.rect.x + 30 and click2[1] > h.rect.y and click2[1] < h.rect.y + 50 and h.rect.x != h.x and not h.moving:
 			upgrading = True
 			hero = h
 
@@ -447,6 +447,7 @@ while True:
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_ESCAPE:
 				upgrading = False
+				hero = None
 			elif event.key == pygame.K_SPACE and len(bots) == 0:
 				round += 1
 				if round <= len(round_list):
