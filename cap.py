@@ -22,11 +22,13 @@ class Cap(pygame.sprite.Sprite):
         self.button_1 = Button(1025, 125, "Increase shield speed by 60%", 300)
         self.button_2 = Button(1025, 475, "Double damage", 300)
 
+    #moves the sprite with the mouse
     def place(self, coor):
 
         self.rect.x = coor[0]
         self.rect.y = coor[1]
 
+    #changes cap's image
     def change_image(self):
 
         if self.shield == None:

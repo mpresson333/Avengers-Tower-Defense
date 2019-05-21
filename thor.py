@@ -22,11 +22,13 @@ class Thor(pygame.sprite.Sprite):
         self.button_1 = Button(1025, 125, "Increase hammer speed by 50%", 300)
         self.button_2 = Button(1025, 475, "Double damage", 300)
 
+    #moves the sprite with the mouse
     def place(self, coor):
 
         self.rect.x = coor[0]
         self.rect.y = coor[1]
 
+    #changes thor's image
     def change_image(self):
 
         if self.hammer == None:

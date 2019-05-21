@@ -11,6 +11,7 @@ class Shield(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 20, 20)
         self.out = True
 
+    #moves cap's shield in a cardinal direction and checks for collisions with a bot
     def throw(self, cap, bots, DISPLAYSURF):
 
         if cap.direction== 1:

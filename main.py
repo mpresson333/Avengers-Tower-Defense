@@ -344,8 +344,6 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 		widow.image = pygame.image.load('resources/widow.png')
 
 #allows the player to click on a hero, which brings up an upgrade menu with buttons that, when clicked, upgrade a hero and take money from the player
-
-
 def upgrade():
 
 	global upgrading
@@ -383,11 +381,13 @@ def upgrade():
 			text_rect.topleft = (1050, 100)
 			DISPLAYSURF.blit(text, text_rect)
 
+#runs through the list of rounds and adds all the bots for the round into a sprite group
 def spawn_bots(round):
 
 	for b in round_list[round - 1]:
 		bots.add(b)
 
+#defines all 10 rounds
 def rounds():
 
 	round_1 = [Weak_Bot(1000)]
@@ -418,6 +418,7 @@ def rounds():
 		round_10.append(Ultron(3000 + 20*x))
 	return round_1, round_2, round_3, round_4, round_5, round_6, round_7, round_8, round_9, round_10
 
+#displays the win screen
 def win_screen():
 
 	DISPLAYSURF.fill((255, 255, 255))
@@ -427,6 +428,7 @@ def win_screen():
 	text_rect.topleft = (400, 350)
 	DISPLAYSURF.blit(text, text_rect)
 
+#displays the game over screen
 def lose_screen():
 
 	DISPLAYSURF.fill((255, 255, 255))
@@ -449,6 +451,8 @@ hero = None
 round = 0
 bots = pygame.sprite.Group()
 round_list = rounds()
+
+#beautifully stitches all above functions together
 while True:
 
 
@@ -464,6 +468,7 @@ while True:
 			if not upgrading:
 				drag_and_drop()
 
+		#allows player to escape the upgrade menu or start anew round
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_ESCAPE:
 				upgrading = False
