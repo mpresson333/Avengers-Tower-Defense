@@ -344,6 +344,8 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 		widow.image = pygame.image.load('resources/widow.png')
 
 #allows the player to click on a hero, which brings up an upgrade menu with buttons that, when clicked, upgrade a hero and take money from the player
+
+
 def upgrade():
 
 	global upgrading
@@ -351,12 +353,12 @@ def upgrade():
 	global money
 	for h in heroes:
 
-		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost and h == hero:
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost and h == hero and not h.button_1.pressed:
 			h.button_1.pressed = True
 			money -= h.button_1.cost
 			h.button_1.image = pygame.image.load('resources/button(2).png')
 
-		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_2.rect.x and click[0] < h.button_2.rect.x + 150 and click[1] > h.button_2.rect.y and click[1] < h.button_2.rect.y + 300 and h.rect.x != h.x and money >= h.button_2.cost and h == hero:
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_2.rect.x and click[0] < h.button_2.rect.x + 150 and click[1] > h.button_2.rect.y and click[1] < h.button_2.rect.y + 300 and h.rect.x != h.x and money >= h.button_2.cost and h == hero and not h.button_2.pressed:
 			h.button_2.pressed = True
 			money -= h.button_1.cost
 			h.button_2.image = pygame.image.load('resources/button(2).png')
