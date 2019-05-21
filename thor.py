@@ -19,7 +19,7 @@ class Thor(pygame.sprite.Sprite):
         self.hammer = None
         self.damage = 2
         self.direction = 0
-        self.button_1 = Button(1025, 125, "Increase attack speed by 50%", 300)
+        self.button_1 = Button(1025, 125, "Increase hammer speed by 50%", 300)
         self.button_2 = Button(1025, 475, "Double damage", 300)
 
     def place(self, coor):

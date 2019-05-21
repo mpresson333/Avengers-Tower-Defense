@@ -25,7 +25,7 @@ from hammer import Hammer
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Avengers Tower Defense")
-FPS = 60
+FPS = 30
 fpsClock = pygame.time.Clock()
 bots = []
 pygame.mixer.music.load('resources/Avengers Suite (Theme).mp3')
@@ -338,10 +338,8 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 		tony.range = 225
 
 	if len(bots) == 0:
-		cap.image = pygame.image.load('resources/cap.png')
 		hawkeye.image = pygame.image.load('resources/hawkeye.png')
 		hulk.image = pygame.image.load('resources/hulk.png')
-		thor.image = pygame.image.load('resources/thor.png')
 		tony.image = pygame.image.load('resources/tony.png')
 		widow.image = pygame.image.load('resources/widow.png')
 
@@ -353,17 +351,17 @@ def upgrade():
 	global money
 	for h in heroes:
 
-		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost:
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost and h == hero:
 			h.button_1.pressed = True
 			money -= h.button_1.cost
 			h.button_1.image = pygame.image.load('resources/button(2).png')
 
-		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_2.rect.x and click[0] < h.button_2.rect.x + 150 and click[1] > h.button_2.rect.y and click[1] < h.button_2.rect.y + 300 and h.rect.x != h.x and money >= h.button_2.cost:
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_2.rect.x and click[0] < h.button_2.rect.x + 150 and click[1] > h.button_2.rect.y and click[1] < h.button_2.rect.y + 300 and h.rect.x != h.x and money >= h.button_2.cost and h == hero:
 			h.button_2.pressed = True
 			money -= h.button_1.cost
 			h.button_2.image = pygame.image.load('resources/button(2).png')
 
-		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click2[0] > h.rect.x and click2[0] < h.rect.x + 150 and click2[1] > h.rect.y and click2[1] < h.rect.y + 3000 and h.rect.x != h.x:
+		if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click2[0] > h.rect.x and click2[0] < h.rect.x + 30 and click2[1] > h.rect.y and click2[1] < h.rect.y + 50 and h.rect.x != h.x and not h.moving:
 			upgrading = True
 			hero = h
 
@@ -467,6 +465,7 @@ while True:
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_ESCAPE:
 				upgrading = False
+				hero = None
 			elif event.key == pygame.K_SPACE and len(bots) == 0:
 				round += 1
 				if round <= len(round_list):

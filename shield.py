@@ -19,7 +19,7 @@ class Shield(pygame.sprite.Sprite):
             else:
                 self.rect.y += cap.speed
 
-            if cap.rect.y - self.rect.y >= 160:
+            if cap.rect.y - self.rect.y >= cap.range:
                 self.out = False
 
             if self.rect.y >= cap.rect.y:
@@ -31,7 +31,7 @@ class Shield(pygame.sprite.Sprite):
             else:
                 self.rect.x += cap.speed
 
-            if cap.rect.x - self.rect.x >= 160:
+            if cap.rect.x - self.rect.x >= cap.range:
                 self.out = False
 
             if self.rect.x >= cap.rect.x:
@@ -43,7 +43,7 @@ class Shield(pygame.sprite.Sprite):
             else:
                 self.rect.y -= cap.speed
 
-            if self.rect.y - cap.rect.y >= 160:
+            if self.rect.y - cap.rect.y >= cap.range:
                 self.out = False
 
             if self.rect.y <= cap.rect.y:
@@ -55,7 +55,7 @@ class Shield(pygame.sprite.Sprite):
             else:
                 self.rect.x -= cap.speed
 
-            if self.rect.x - cap.rect.x >= 160:
+            if self.rect.x - cap.rect.x >= cap.range:
                 self.out = False
 
             if self.rect.x <= cap.rect.x:

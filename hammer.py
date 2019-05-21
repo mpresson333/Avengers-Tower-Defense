@@ -20,7 +20,7 @@ class Hammer(pygame.sprite.Sprite):
             else:
                 self.rect.y += thor.speed
 
-            if thor.rect.y - self.rect.y >= 160:
+            if thor.rect.y - self.rect.y >= thor.range:
                 self.out = False
 
             if self.rect.y >= thor.rect.y:
@@ -33,7 +33,7 @@ class Hammer(pygame.sprite.Sprite):
             else:
                 self.rect.x += thor.speed
 
-            if thor.rect.x - self.rect.x >= 160:
+            if thor.rect.x - self.rect.x >= thor.range:
                 self.out = False
 
             if self.rect.x >= thor.rect.x:
@@ -46,7 +46,7 @@ class Hammer(pygame.sprite.Sprite):
             else:
                 self.rect.y -= thor.speed
 
-            if self.rect.y - thor.rect.y >= 160:
+            if self.rect.y - thor.rect.y >= thor.range:
                 self.out = False
 
             if self.rect.y <= thor.rect.y:
@@ -59,7 +59,7 @@ class Hammer(pygame.sprite.Sprite):
             else:
                 self.rect.x -= thor.speed
 
-            if self.rect.x - thor.rect.x >= 160:
+            if self.rect.x - thor.rect.x >= thor.range:
                 self.out = False
 
             if self.rect.x <= thor.rect.x:
