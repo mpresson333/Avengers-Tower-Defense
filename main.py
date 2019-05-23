@@ -475,6 +475,7 @@ while True:
 				hero = None
 			elif event.key == pygame.K_SPACE and len(bots) == 0:
 				round += 1
+				money += 100
 				if round <= len(round_list):
 					spawn_bots(round)
 
