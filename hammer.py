@@ -11,9 +11,10 @@ class Hammer(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, 15, 15)
         self.out = True
 
+    #moves thor's hammer in a cardinal direction and checks for collisions with a bot
     def throw(self, thor, bots, DISPLAYSURF):
 
-        if thor.direction== 1:
+        if thor.direction == 1:
             self.image = self.image = pygame.image.load('resources/hammer(3).png')
             if self.out:
                 self.rect.y -= thor.speed
@@ -26,7 +27,7 @@ class Hammer(pygame.sprite.Sprite):
             if self.rect.y >= thor.rect.y:
                 thor.hammer = None
 
-        elif thor.direction== 2:
+        elif thor.direction == 2:
             self.image = pygame.image.load('resources/hammer.png')
             if self.out:
                 self.rect.x -= thor.speed
@@ -39,7 +40,7 @@ class Hammer(pygame.sprite.Sprite):
             if self.rect.x >= thor.rect.x:
                 thor.hammer = None
 
-        elif thor.direction== 3:
+        elif thor.direction == 3:
             self.image = pygame.image.load('resources/hammer(4).png')
             if self.out:
                 self.rect.y += thor.speed

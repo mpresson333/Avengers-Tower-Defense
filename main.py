@@ -28,7 +28,10 @@ pygame.display.set_caption("Avengers Tower Defense")
 FPS = 30
 fpsClock = pygame.time.Clock()
 bots = []
+pygame.mixer.music.load('resources/Avengers Suite (Theme).mp3')
+pygame.mixer.music.play(-1, 0.0)
 
+#just loads all images from my resources folder into the game
 def images():
 
 	global cone
@@ -57,6 +60,7 @@ def images():
 	steel = pygame.image.load('resources/steel.jpg')
 	heart = pygame.image.load('resources/heart.png')
 
+#creates all sprites for the decorations in the game, with hitboxes, and adds them all to a sprite group
 def map_sprites():
 
 	global decorations
@@ -99,6 +103,7 @@ def map_sprites():
 	decorations.add(Flower(465, 480))
 	decorations.add(Arrow(875, 25))
 
+#draws all non-sprite images into the screen and adds the round and lives indicators
 def draw_map():
 
 	DISPLAYSURF.blit(tile, (0, 0))
@@ -148,6 +153,7 @@ def draw_map():
 	text_rect.topleft = (900, 775)
 	DISPLAYSURF.blit(text, text_rect)
 
+#creates all the hero sprites and adds them to a sprite group
 def hero_sprites():
 
 	global heroes
@@ -171,6 +177,7 @@ def hero_sprites():
 	heroes.add(hawkeye)
 	heroes.add(hulk)
 
+#allows the player to click and drag a hero and drop them with a right click. heroes cannot be dropped on decorations or the menu
 def drag_and_drop():
 
 	global money
@@ -185,6 +192,7 @@ def drag_and_drop():
 			h.rect.x = h.x
 			h.rect.y = h.y
 
+#draws all hero sprites and moves them if they are being dragged... also displays cost if they are in the menu
 def draw_heroes():
 
 	for h in heroes:
@@ -198,6 +206,7 @@ def draw_heroes():
 			DISPLAYSURF.blit(text, text_rect)
 		DISPLAYSURF.blit(h.image, h.rect)
 
+#draws all the enemies, as well as killing them if they reach the end or run out of health, and affects the player's lives accordingly
 def draw_bots():
 
 	global lives
@@ -211,6 +220,7 @@ def draw_bots():
 		if b.rect.x < 985:
 			DISPLAYSURF.blit(b.image, b.rect)
 
+#finds the relative cardinal direction between two sprites, used for cap and thor's projectiles
 def direction(c, p):
 
 	if p.rect.centerx >= c.rect.centerx - math.sqrt((c.rect.centerx - p.rect.centerx)**2 + (c.rect.centery - p.rect.centery)**2)/math.sqrt(2):
@@ -224,6 +234,7 @@ def direction(c, p):
 	else:
 	    return 2
 
+#allows black widow to shoot a bot one at a time at a certain rate if the bot is in range, and adds money to the player's bank
 def widow_attack(b, widow, counter, FPS):
 
 	global money
@@ -231,6 +242,7 @@ def widow_attack(b, widow, counter, FPS):
 		money += widow.shoot(b, counter, FPS)
 	widow.change_image(b, counter)
 
+#allows cap to throw his shield in a cardinal direction if a bot is within range, and adds money to the player's bank
 def cap_attack(bots, cap):
 
 	global money
@@ -244,6 +256,7 @@ def cap_attack(bots, cap):
 
 	cap.change_image()
 
+#allows hawkeye to shoot a bot one at a time at a certain rate if the bot is in range, and adds money to the player's bank
 def hawkeye_attack(b, hawkeye, counter, FPS):
 
 	global money
@@ -251,6 +264,7 @@ def hawkeye_attack(b, hawkeye, counter, FPS):
 		money += hawkeye.shoot(b, counter, FPS)
 	hawkeye.change_image(b, counter)
 
+#allows iron man to shoot a bot one at a time at a certain rate if the bot is in range, and adds money to the player's bank
 def tony_attack(b, tony, counter, FPS):
 
 	global money
@@ -258,6 +272,7 @@ def tony_attack(b, tony, counter, FPS):
 		money += tony.shoot(b, counter, FPS)
 	tony.change_image(b, counter)
 
+#allows thor to throw his hammer in a cardinal direction if a bot is within range, and adds money to the player's bank
 def thor_attack(bots, thor):
 
 	global money
@@ -271,6 +286,7 @@ def thor_attack(bots, thor):
 
 	thor.change_image()
 
+#allows hulk to smash all enemies within range at a slow rate
 def hulk_attack(b, hulk, counter, FPS):
 
 	global money
@@ -278,6 +294,7 @@ def hulk_attack(b, hulk, counter, FPS):
 		money += hulk.smash(b, counter, FPS)
 	hulk.change_image(b, counter)
 
+#runs the heroes's attack functions, upgrades them, and resets their image every round
 def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS):
 
 	for b in bots:
@@ -326,6 +343,7 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 		tony.image = pygame.image.load('resources/tony.png')
 		widow.image = pygame.image.load('resources/widow.png')
 
+#allows the player to click on a hero, which brings up an upgrade menu with buttons that, when clicked, upgrade a hero and take money from the player
 def upgrade():
 
 	global upgrading
@@ -333,12 +351,12 @@ def upgrade():
 	global money
 	for h in heroes:
 
-		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost and h == hero:
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_1.rect.x and click[0] < h.button_1.rect.x + 150 and click[1] > h.button_1.rect.y and click[1] < h.button_1.rect.y + 300 and h.rect.x != h.x and money >= h.button_1.cost and h == hero and not h.button_1.pressed:
 			h.button_1.pressed = True
 			money -= h.button_1.cost
 			h.button_1.image = pygame.image.load('resources/button(2).png')
 
-		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_2.rect.x and click[0] < h.button_2.rect.x + 150 and click[1] > h.button_2.rect.y and click[1] < h.button_2.rect.y + 300 and h.rect.x != h.x and money >= h.button_2.cost and h == hero:
+		if upgrading and event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and click[0] > h.button_2.rect.x and click[0] < h.button_2.rect.x + 150 and click[1] > h.button_2.rect.y and click[1] < h.button_2.rect.y + 300 and h.rect.x != h.x and money >= h.button_2.cost and h == hero and not h.button_2.pressed:
 			h.button_2.pressed = True
 			money -= h.button_1.cost
 			h.button_2.image = pygame.image.load('resources/button(2).png')
@@ -363,11 +381,13 @@ def upgrade():
 			text_rect.topleft = (1050, 100)
 			DISPLAYSURF.blit(text, text_rect)
 
+#runs through the list of rounds and adds all the bots for the round into a sprite group
 def spawn_bots(round):
 
 	for b in round_list[round - 1]:
 		bots.add(b)
 
+#defines all 10 rounds
 def rounds():
 
 	round_1 = [Weak_Bot(1000)]
@@ -398,6 +418,7 @@ def rounds():
 		round_10.append(Ultron(3000 + 20*x))
 	return round_1, round_2, round_3, round_4, round_5, round_6, round_7, round_8, round_9, round_10
 
+#displays the win screen
 def win_screen():
 
 	DISPLAYSURF.fill((255, 255, 255))
@@ -407,6 +428,7 @@ def win_screen():
 	text_rect.topleft = (400, 350)
 	DISPLAYSURF.blit(text, text_rect)
 
+#displays the game over screen
 def lose_screen():
 
 	DISPLAYSURF.fill((255, 255, 255))
@@ -429,6 +451,8 @@ hero = None
 round = 0
 bots = pygame.sprite.Group()
 round_list = rounds()
+
+#beautifully stitches all above functions together
 while True:
 
 
@@ -444,6 +468,7 @@ while True:
 			if not upgrading:
 				drag_and_drop()
 
+		#allows player to escape the upgrade menu or start anew round
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_ESCAPE:
 				upgrading = False

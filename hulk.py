@@ -21,11 +21,13 @@ class Hulk(pygame.sprite.Sprite):
         self.button_1 = Button(1025, 125, "Increase attack range by 50%", 300)
         self.button_2 = Button(1025, 475, "Double attack speed", 300)
 
+    #moves the sprite with the mouse
     def place(self, coor):
 
         self.rect.x = coor[0]
         self.rect.y = coor[1]
 
+    #uses an attacking attribute to allow hulk to smash all bots within range
     def smash(self, b, counter, FPS):
 
         if counter % (FPS/self.speed) == 0:
@@ -44,6 +46,7 @@ class Hulk(pygame.sprite.Sprite):
         else:
             return 0
 
+    #changes hulk's image
     def change_image(self, b, counter):
 
         if self.range >= math.sqrt(((self.rect.centerx - b.rect.centerx)**2) + ((self.rect.centery - b.rect.centery)**2)) and self.rect.x != self.x and not self.moving:

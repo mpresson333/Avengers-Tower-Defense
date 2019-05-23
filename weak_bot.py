@@ -12,6 +12,7 @@ class Weak_Bot(pygame.sprite.Sprite):
         self.health = 1
         self.speed = 2
 
+    #moves the bot along the path and animates it
     def move(self, counter):
 
         if self.rect.x > 156 and self.rect.y < 86:
