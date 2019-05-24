@@ -313,7 +313,7 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 		widow.range = 225
 
 	if cap.button_1.pressed:
-		cap.speed = 8
+		cap.speed = 12
 	if cap.button_2.pressed:
 		cap.damage = 2
 
@@ -328,7 +328,7 @@ def avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
 		hulk.speed = 2
 
 	if thor.button_1.pressed:
-		thor.speed = 12
+		thor.speed = 15
 	if thor.button_2.pressed:
 		thor.damage = 4
 
@@ -475,6 +475,7 @@ while True:
 				hero = None
 			elif event.key == pygame.K_SPACE and len(bots) == 0:
 				round += 1
+				money += 100
 				if round <= len(round_list):
 					spawn_bots(round)
 
