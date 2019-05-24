@@ -372,10 +372,16 @@ def upgrade():
 			BASICFONT = pygame.font.Font('freesansbold.ttf', 10)
 			text = BASICFONT.render(hero.button_1.text, 1, (0,0,0))
 			text_rect = text.get_rect()
-			text_rect.topleft = (1050, 270)
+			text_rect.topleft = (1040, 270)
 			DISPLAYSURF.blit(text, text_rect)
 			text = BASICFONT.render(hero.button_2.text, 1, (0,0,0))
-			text_rect.topleft = (1050, 620)
+			text_rect.topleft = (1040, 620)
+			DISPLAYSURF.blit(text, text_rect)
+			text = BASICFONT.render("$300", 1, (0,0,0))
+			text_rect.topleft = (1085, 300)
+			DISPLAYSURF.blit(text, text_rect)
+			text = BASICFONT.render("$300", 1, (0,0,0))
+			text_rect.topleft = (1085, 650)
 			DISPLAYSURF.blit(text, text_rect)
 			text = BASICFONT.render("Press escape to exit", 1, (0,0,0))
 			text_rect.topleft = (1050, 100)
@@ -390,33 +396,113 @@ def spawn_bots(round):
 #defines all 10 rounds
 def rounds():
 
-	round_1 = [Weak_Bot(1000)]
-	round_2 = [Blue_Bot(1000)]
-	round_3 = [Red_Bot(1000)]
-	round_4 = [Ultron(1000)]
-	round_5 = [Weak_Bot(1000), Blue_Bot(1000), Red_Bot(1000), Ultron(1000)]
+	round_1 = []
+	for x in range(20):
+		round_1.append(Weak_Bot(1000 + 30*x))
+	round_2 = []
+	for x in range(35):
+		round_2.append(Weak_Bot(1000 + 30*x))
+	round_3 = []
+	for x in range(25):
+		round_3.append(Weak_Bot(1000 + 30*x))
+	for x in range(25):
+		round_3.append(Blue_Bot(1000 + 30*x))
+	round_4 = []
+	for x in range(35):
+		round_4.append(Weak_Bot(1000 + 30*x))
+	for x in range(18):
+		round_4.append(Blue_Bot(1000 + 30*x))
+	round_5 = []
+	for x in range(5):
+		round_5.append(Weak_Bot(1000 + 30*x))
+	for x in range(27):
+		round_5.append(Blue_Bot(1000 + 30*x))
 	round_6 = []
-	for x in range(50):
-		round_6.append(Weak_Bot(1000 + 20*x))
+	for x in range(15):
+		round_6.append(Weak_Bot(1000 + 30*x))
+	for x in range(15):
+		round_6.append(Blue_Bot(1000 + 30*x))
+	for x in range(4):
+		round_6.append(Red_Bot(1000 + 30*x))
 	round_7 = []
-	for x in range(30):
-		round_7.append(Blue_Bot(1000 + 20*x))
+	for x in range(20):
+		round_7.append(Weak_Bot(1000 + 30*x))
+	for x in range(20):
+		round_7.append(Blue_Bot(1000 + 30*x))
+	for x in range(5):
+		round_7.append(Red_Bot(1000 + 30*x))
 	round_8 = []
+	for x in range(10):
+		round_8.append(Weak_Bot(1000 + 30*x))
 	for x in range(20):
-		round_8.append(Red_Bot(1000 + 20*x))
+		round_8.append(Blue_Bot(1000 + 30*x))
+	for x in range(14):
+		round_8.append(Red_Bot(1000 + 30*x))
 	round_9 = []
-	for x in range(10):
-		round_9.append(Ultron(1000 + 20*x))
-	round_10 = []
-	for x in range(50):
-		round_10.append(Weak_Bot(1000 + 20*x))
 	for x in range(30):
-		round_10.append(Blue_Bot(2000 + 20*x))
-	for x in range(20):
-		round_10.append(Red_Bot(2600 + 20*x))
+		round_9.append(Red_Bot(1000 + 30*x))
+	round_10 = []
+	for x in range(102):
+		round_10.append(Blue_Bot(1000 + 30*x))
+	round_11 = []
+	for x in range(6):
+		round_11.append(Weak_Bot(1000 + 30*x))
+	for x in range(12):
+		round_11.append(Blue_Bot(1000 + 30*x))
+	for x in range(12):
+		round_11.append(Red_Bot(1000 + 30*x))
+	for x in range(1):
+		round_11.append(Ultron(1000 + 30*x))
+	round_12 = []
+	for x in range(15):
+		round_12.append(Blue_Bot(1000 + 30*x))
 	for x in range(10):
-		round_10.append(Ultron(3000 + 20*x))
-	return round_1, round_2, round_3, round_4, round_5, round_6, round_7, round_8, round_9, round_10
+		round_12.append(Red_Bot(1000 + 30*x))
+	for x in range(3):
+		round_12.append(Ultron(1000 + 30*x))
+	round_13 = []
+	for x in range(50):
+		round_13.append(Blue_Bot(1000 + 30*x))
+	for x in range(23):
+		round_13.append(Red_Bot(1000 + 30*x))
+	round_14 = []
+	for x in range(49):
+		round_14.append(Weak_Bot(1000 + 30*x))
+	for x in range(15):
+		round_14.append(Blue_Bot(1000 + 30*x))
+	for x in range(10):
+		round_14.append(Red_Bot(1000 + 30*x))
+	for x in range(4):
+		round_14.append(Ultron(1000 + 30*x))
+	round_15 = []
+	for x in range(20):
+		round_15.append(Weak_Bot(1000 + 30*x))
+	for x in range(15):
+		round_15.append(Blue_Bot(1000 + 30*x))
+	for x in range(12):
+		round_15.append(Red_Bot(1000 + 30*x))
+	for x in range(8):
+		round_15.append(Ultron(1000 + 30*x))
+	round_16 = []
+	for x in range(40):
+		round_16.append(Red_Bot(1000 + 30*x))
+	for x in range(4):
+		round_16.append(Ultron(1000 + 30*x))
+	round_17 = []
+	for x in range(15):
+		round_17.append(Ultron(1000 + 30*x))
+	round_18 = []
+	for x in range(80):
+		round_18.append(Red_Bot(1000 + 30*x))
+	round_19 = []
+	for x in range(10):
+		round_19.append(Red_Bot(1000 + 30*x))
+	for x in range(15):
+		round_19.append(Ultron(1000 + 30*x))
+	round_20 = []
+	for x in range(20):
+		round_20.append(Ultron(1000 + 30*x))
+	return round_1, round_2, round_3, round_4, round_5, round_6, round_7, round_8, round_9, round_10, round_11, round_12, round_13, round_14, round_15, round_16, round_17, round_18, round_19, round_20
 
 #displays the win screen
 def win_screen():
@@ -439,7 +525,7 @@ def lose_screen():
 	DISPLAYSURF.blit(text, text_rect)
 
 lives = 100
-money = 10000
+money = 500
 
 images()
 map_sprites()
@@ -485,7 +571,7 @@ while True:
 	draw_bots()
 	upgrade()
 	avengers_assemble(bots, widow, cap, hawkeye, tony, thor, hulk, counter, FPS)
-	if round > 10:
+	if round > 20:
 		win_screen()
 	if lives < 1:
 		lose_screen()
