@@ -25,7 +25,7 @@ from hammer import Hammer
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((1200, 800))
 pygame.display.set_caption("Avengers Tower Defense")
-FPS = 30
+FPS = 60
 fpsClock = pygame.time.Clock()
 bots = []
 pygame.mixer.music.load('resources/Avengers Suite (Theme).mp3')
@@ -561,7 +561,7 @@ while True:
 				hero = None
 			elif event.key == pygame.K_SPACE and len(bots) == 0:
 				round += 1
-				money += 100
+				money += 175
 				if round <= len(round_list):
 					spawn_bots(round)
 
